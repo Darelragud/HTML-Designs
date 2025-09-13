@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9 Dot Navigation</title>
+
+    <!--
+        This is a link to the Tailwind CSS library.
+        It provides a set of pre-built classes for styling.
+        In this specific example, it is used to center the content
+        in the body element.
+    -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!--
+        This is a link to the Ion-Icons library.
+        It gives us access to a wide range of icons
+        that we can use in our design.
+    -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+
+    <!--
+        The <style> tag contains all the CSS rules for the design.
+        This is where we define the colors, sizes, positions, and
+        animations of the navigation menu.
+    -->
+    <style>
+        /* This CSS styles the main body of the page to center the content. */
+        body {
+            background: #202020;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /*
+            This is the main container for the navigation.
+            It is a small square in its initial state.
+        */
+        .navigation {
+            position: relative;
+            width: 70px;
+            height: 70px;
+            background: #212532;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.5s;
+            transition-delay: 0.8s;
+        }
+
+        /*
+            This is the state of the container when the 'active' class is added
+            by the JavaScript. It becomes a larger square.
+        */
+        .navigation.active {
+            width: 200px;
+            height: 200px;
+            transition-delay: 0s;
+        }
+
+        /*
+            This styles the individual dots (<span> elements) inside the container.
+            They are small white circles in their initial state.
+        */
+        .navigation span {
+            position: absolute;
+            width: 7px;
+            height: 7px;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            /*
+                This uses the custom CSS properties (--i and --j)
+                to position the dots in a 3x3 grid.
+            */
+            transform: translate(calc(12px * var(--i)), calc(12px * var(--j)));
+            transition: 0.5s;
+            transition-delay: 0s;
+        }
+
+        /*
+            This styles the dots when the 'active' class is added.
+            They become larger, dark squares and move to a new position.
+        */
+        .navigation.active span {
+            width: 45px;
+            height: 45px;
+            background: #333842;
+            transition: 0.5s;
+            transform: translate(calc(60px * var(--i)), calc(60px * var(--j)));
+        }
+
+        /*
+            This styles the icons inside the dots. They are initially
+            invisible (opacity: 0) and cannot be interacted with.
+        */
+        .navigation span ion-icon {
+            font-size: 1.5rem;
+            color: #fff;
+            transition: 0.5s;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /*
+            This makes the icons visible when the 'active' class is added.
+        */
+        .navigation.active span ion-icon {
+            opacity: 1;
+            transition-delay: 0.5s;
+        }
+
+        /*
+            These rules assign the --i and --j custom properties to
+            each of the nine dots. This is how we position them.
+        */
+        .navigation span:nth-child(1) { --i: -1; --j: -1; }
+        .navigation span:nth-child(2) { --i: 0; --j: -1; }
+        .navigation span:nth-child(3) { --i: 1; --j: -1; }
+        .navigation span:nth-child(4) { --i: -1; --j: 0; }
+        .navigation span:nth-child(5) { --i: 0; --j: 0; }
+        .navigation span:nth-child(6) { --i: 1; --j: 0; }
+        .navigation span:nth-child(7) { --i: -1; --j: 1; }
+        .navigation span:nth-child(8) { --i: 0; --j: 1; }
+        .navigation span:nth-child(9) { --i: 1; --j: 1; }
+
+        /*
+            These rules correct the position of the dots in the active state.
+            They are needed because the grid in the original design
+            is slightly different from a perfect grid.
+        */
+        .navigation.active span:nth-child(2) {
+            transform: translate(0, calc(60px * -1));
+        }
+        .navigation.active span:nth-child(4) {
+            transform: translate(calc(60px * -1), 0);
+        }
+        .navigation.active span:nth-child(5) {
+            transform: translate(0, 0);
+        }
+        .navigation.active span:nth-child(6) {
+            transform: translate(calc(60px * 1), 0);
+        }
+        .navigation.active span:nth-child(8) {
+            transform: translate(0, calc(60px * 1));
+        }
+    </style>
+</head>
+<body class="bg-[#202020] flex items-center justify-center min-h-screen">
+    <!--
+        This is the main container for the navigation menu.
+        The onclick event listener calls a JavaScript function
+        to toggle the 'active' class.
+    -->
+    <div class="navigation" onclick="this.classList.toggle('active')">
+        <!-- Each of these <span> elements is a single dot in the menu. -->
+        <span style="--i:0; --j:0;">
+            <ion-icon name="camera-outline"></ion-icon>
+        </span>
+        <span style="--i:-1; --j:-1;">
+            <ion-icon name="camera-outline"></ion-icon>
+        </span>
+        <span style="--i:0; --j:-1;">
+            <ion-icon name="time-outline"></ion-icon>
+        </span>
+        <span style="--i:1; --j:-1;">
+            <ion-icon name="image-outline"></ion-icon>
+        </span>
+        <span style="--i:-1; --j:0;">
+            <ion-icon name="person-outline"></ion-icon>
+        </span>
+        <span style="--i:1; --j:0;">
+            <ion-icon name="chatbubble-outline"></ion-icon>
+        </span>
+        <span style="--i:-1; --j:1;">
+            <ion-icon name="settings-outline"></ion-icon>
+        </span>
+        <span style="--i:0; --j:1;">
+            <ion-icon name="search-outline"></ion-icon>
+        </span>
+        <span style="--i:1; --j:1;">
+            <ion-icon name="help-circle-outline"></ion-icon>
+        </span>
+    </div>
+
+    <!--
+        This is the JavaScript code. It makes the menu interactive.
+        When you click the menu, it toggles the 'active' class,
+        which triggers the CSS animations and changes the appearance.
+    -->
+    <script>
+        // Selects the element with the class 'navigation'.
+        const navigation = document.querySelector('.navigation');
+
+        // Adds a click event listener to the navigation element.
+        navigation.onclick = function() {
+            // Toggles the 'active' class. If it's there, it's removed.
+            // If it's not there, it's added.
+            navigation.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
